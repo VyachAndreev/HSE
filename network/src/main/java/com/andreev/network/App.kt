@@ -1,7 +1,6 @@
-package com.andreev.hse
+package com.andreev.network
 
 import android.app.Application
-import com.andreev.network.API
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
