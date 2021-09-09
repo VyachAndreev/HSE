@@ -59,8 +59,8 @@ abstract class BaseActivity<T: ViewDataBinding>: AppCompatActivity() {
         toast.show()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         inflateContentView()
     }
 }

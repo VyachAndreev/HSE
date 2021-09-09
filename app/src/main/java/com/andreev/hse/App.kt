@@ -1,4 +1,4 @@
-package com.andreev.core
+package com.andreev.hse
 
 import android.app.Application
 import com.andreev.core.api_interfaces.LessonsAPI
