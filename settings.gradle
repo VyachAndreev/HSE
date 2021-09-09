@@ -9,3 +9,4 @@ rootProject.name = "HSE"
 include ':app'
 include ':flow_lessons'
 include ':core'
+include ':data'
