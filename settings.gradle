@@ -3,12 +3,9 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        jcenter() // Warning: this repository is going to shut down soon
     }
 }
 rootProject.name = "HSE"
 include ':app'
 include ':flow_lessons'
-include ':network'
-include ':myapplication'
 include ':core'

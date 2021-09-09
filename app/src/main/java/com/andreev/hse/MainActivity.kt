@@ -1,16 +1,27 @@
 package com.andreev.hse
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.andreev.lessons_flow.ui.lessons.LessonsFragment
+import android.os.PersistableBundle
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+//    override fun getContentViewResId(): Int = R.layout.activity_main
+//
+//    override fun injectDependencies(applicationComponent: ApplicationComponent) {
+//
+//    }
+
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        super.onCreate(savedInstanceState, persistentState)
         setContentView(R.layout.activity_main)
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fragment_container, LessonsFragment())
-            .commitAllowingStateLoss()
     }
+//
+//    fun launchFragment(
+//        fragment: Fragment,
+//        addToStack: Boolean = true,
+//        extras: Bundle? = null,
+//        replace: Boolean = true,
+//    ) {
+//        super.launchFragment(R.id.fragment_container, fragment, addToStack, extras, replace)
+//    }
 }

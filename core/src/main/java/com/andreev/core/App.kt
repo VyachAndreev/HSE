@@ -1,12 +1,14 @@
-package com.andreev.network
+package com.andreev.core
 
 import android.app.Application
+import com.andreev.core.api_interfaces.LessonsAPI
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
+import retrofit2.converter.gson.GsonConverterFactory
+
 
 class App: Application() {
-    private var api: API? = null
+    private var api: LessonsAPI? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -15,7 +17,7 @@ class App: Application() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        api = retrofit.create(API::class.java)
+        api = retrofit.create(LessonsAPI::class.java)
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }

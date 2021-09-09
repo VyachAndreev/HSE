@@ -1,7 +1,10 @@
 package com.andreev.lessons_flow.ui.lesson_info
 
-import androidx.fragment.app.Fragment
+import com.andreev.core.base.BaseFragment
 import com.andreev.lessons_flow.R
+import com.andreev.lessons_flow.databinding.FragmentLessonsBinding
+import com.andreev.lessons_flow.ui.lessons.LessonsViewModel
 
-class LessonInfoFragment: Fragment(R.layout.fragment_lesson_info) {
+class LessonInfoFragment: BaseFragment<FragmentLessonsBinding, LessonsViewModel>() {
+    override fun getLayoutRes(): Int = R.layout.fragment_lesson_info
 }
