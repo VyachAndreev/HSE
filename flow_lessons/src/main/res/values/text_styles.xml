@@ -1,32 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--  TextMotserrat500  -->
-    <style name="TextMotserrat500">
-        <item name="fontFamily">@font/montserrat_500</item>
+    <!--  TextMotserrat  -->
+    <style name="TextMotserrat">
+        <item name="fontFamily">@font/montserrat</item>
     </style>
-
-    <!--  TextMotserrat600  -->
-    <style name="TextMotserrat600">
-        <item name="fontFamily">@font/montserrat_600</item>
-    </style>
-
-    <!--  TextMotserrat700  -->
-    <style name="TextMotserrat700">
-        <item name="fontFamily">@font/montserrat_700</item>
-    </style>
-    <style name="TextMotserrat700.Big" parent="TextMotserrat700">
+    <style name="TextMotserrat.Big" parent="TextMotserrat">
         <item name="android:textSize">18sp</item>
+    </style>
+    <style name="TextMotserrat.Big.Black" parent="TextMotserrat.Big">
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <!--  TextProximaRegular  -->
     <style name="TextProximaRegular">
         <item name="fontFamily">@font/proxima_nova_regular</item>
     </style>
+    <style name="TextProximaRegular.Small" parent="TextProximaRegular">
+        <item name="android:textSize">12sp</item>
+    </style>
     <style name="TextProximaRegular.Normal" parent="TextProximaRegular">
         <item name="android:textSize">14sp</item>
     </style>
     <style name="TextProximaRegular.Normal.Blue" parent="TextProximaRegular.Normal">
-        <item name="android:color">@color/blue</item>
+        <item name="android:textColor">@color/blue</item>
     </style>
 
     <!--  TextProximaSemibold  -->

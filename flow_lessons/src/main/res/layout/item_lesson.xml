@@ -11,7 +11,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_margin="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        style="@style/TextProximaRegular.Small"
         tools:text="1" />
 
     <TextView
@@ -21,6 +25,7 @@
         android:layout_margin="10dp"
         android:layout_toStartOf="@id/time_tv"
         android:layout_toEndOf="@id/number_tv"
+        style="@style/TextProximaRegular.Small"
         tools:text="Практическое занятие Онлайн" />
 
     <TextView
@@ -28,6 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        style="@style/TextProximaRegular.Small"
         android:layout_alignParentEnd="true"
         android:layout_margin="10dp"
         tools:text="123" />
@@ -39,14 +45,20 @@
         android:layout_below="@id/type_tv"
         android:layout_centerHorizontal="true"
         android:layout_marginHorizontal="10dp"
+        style="@style/TextMotserrat.Big.Black"
         android:gravity="start"
         android:textSize="20sp"
         tools:text="1235" />
 
     <TextView
+        style="@style/TextProximaRegular.Normal"
         android:id="@+id/description_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/title_tv"
-        android:layout_margin="10dp"/>
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        tools:text="Таллинская"/>
 </RelativeLayout>
