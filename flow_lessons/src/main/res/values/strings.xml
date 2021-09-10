@@ -3,4 +3,11 @@
     <string name="nothing_found">Ничего не найдено</string>
     <string name="something_went_wrong">Что-то пошло не так</string>
     <string name="invalid_input">Введены неправильные данные</string>
+    <string name="professor">Преподаватель</string>
+    <string name="course">Курс</string>
+    <string name="info">Информация о потоке</string>
+    <string name="back_image">back image</string>
+    <string name="clock_image">clock image</string>
+    <string name="location_image">locate image</string>
+    <string name="link_image">link image</string>
 </resources>
