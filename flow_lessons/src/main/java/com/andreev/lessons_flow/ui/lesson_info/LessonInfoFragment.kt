@@ -10,7 +10,6 @@ import com.andreev.data.models.Lesson
 import com.andreev.lessons_flow.R
 import com.andreev.lessons_flow.databinding.FragmentLessonInfoBinding
 import com.andreev.lessons_flow.ui.Constants
-import timber.log.Timber
 
 class LessonInfoFragment: BaseFragment<FragmentLessonInfoBinding>() {
     private lateinit var viewModel: LessonInfoViewModel
@@ -30,15 +29,16 @@ class LessonInfoFragment: BaseFragment<FragmentLessonInfoBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.swipeLayout.isRefreshing = true
-        binding.viewModel = viewModel
+        with(binding) {
+            swipeLayout.isRefreshing = true
+            viewModel = this@LessonInfoFragment.viewModel
+            swipeLayout.setOnRefreshListener { lessonId?.let { viewModel.getLesson(it) } }
+            backImage.setOnClickListener { onBackPressed() }
+        }
         lessonId = arguments?.getString(Constants.lessonId, null)
         lessonId?.let { viewModel.getLesson(it) }
         viewModel.errorMessage.observe(viewLifecycleOwner, errorMessageObserver)
         viewModel.lesson.observe(viewLifecycleOwner, lessonObserver)
-        binding.swipeLayout.setOnRefreshListener {
-            lessonId?.let { viewModel.getLesson(it) }
-        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -47,18 +47,20 @@ class LessonInfoFragment: BaseFragment<FragmentLessonInfoBinding>() {
     }
 
     private val lessonObserver = Observer<Lesson> {
-        if (binding.parentRelative.visibility == View.GONE) {
-            binding.parentRelative.visibility = View.VISIBLE
-        }
-        binding.swipeLayout.isRefreshing = false
-        if (viewModel.lesson.value?.lecturer == null) {
-            binding.professorNameTv.visibility = View.GONE
-            binding.professorTv.visibility = View.GONE
-            binding.professorView.visibility = View.GONE
-        } else {
-            binding.professorNameTv.visibility = View.VISIBLE
-            binding.professorTv.visibility = View.VISIBLE
-            binding.professorView.visibility = View.VISIBLE
+        with(binding) {
+            if (parentRelative.visibility == gone) {
+                parentRelative.visibility = visible
+            }
+            swipeLayout.isRefreshing = false
+            if (viewModel.lesson.value?.lecturer == null) {
+                professorNameTv.visibility = gone
+                professorTv.visibility = gone
+                professorView.visibility = gone
+            } else {
+                professorNameTv.visibility = visible
+                professorTv.visibility = visible
+                professorView.visibility = visible
+            }
         }
     }
 }

@@ -17,6 +17,8 @@ import com.andreev.core.di.ApplicationComponent
 
 abstract class BaseFragment<T: ViewDataBinding>: Fragment() {
     protected lateinit var binding: T
+    protected val gone by lazy { View.GONE }
+    protected val visible by lazy { View.VISIBLE }
 
     private fun inflateView(inflater: LayoutInflater) {
         binding = DataBindingUtil.inflate(
@@ -46,6 +48,10 @@ abstract class BaseFragment<T: ViewDataBinding>: Fragment() {
             extras,
             replace,
         )
+    }
+
+    protected fun onBackPressed() {
+        activity?.onBackPressed()
     }
 
     protected fun hideSoftKeyboard() {
