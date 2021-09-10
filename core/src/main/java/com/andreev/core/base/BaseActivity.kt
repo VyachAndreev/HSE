@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.IdRes
+import androidx.annotation.IntegerRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import com.andreev.core.R
 import com.andreev.core.di.ApplicationComponent
 
 import timber.log.Timber
@@ -16,7 +18,9 @@ import timber.log.Timber
 abstract class BaseActivity<T: ViewDataBinding>: AppCompatActivity() {
     protected val fm by lazy { supportFragmentManager }
     protected lateinit var binding: T
-    protected abstract fun getContentViewResId(): Int
+    @IdRes
+    protected open val containerId: Int = R.id.fragment_container
+    private fun getContentViewResId(): Int = R.layout.activity_main
 
     protected abstract fun injectDependencies(applicationComponent: ApplicationComponent)
 
@@ -26,7 +30,7 @@ abstract class BaseActivity<T: ViewDataBinding>: AppCompatActivity() {
     }
 
     fun launchFragment(
-        @IdRes containerId: Int,
+        @IdRes containerId: Int = R.id.fragment_container,
         fragment: Fragment,
         addToStack: Boolean,
         extras: Bundle? = null,

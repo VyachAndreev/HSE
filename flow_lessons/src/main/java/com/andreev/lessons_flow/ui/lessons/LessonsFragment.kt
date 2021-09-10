@@ -10,11 +10,13 @@ import com.andreev.core.di.ApplicationComponent
 import com.andreev.data.models.Lesson
 import com.andreev.lessons_flow.R
 import com.andreev.lessons_flow.databinding.FragmentLessonsBinding
+import com.andreev.lessons_flow.ui.Constants
 import com.andreev.lessons_flow.ui._adapters.LessonAdapter
 import com.andreev.lessons_flow.ui._adapters.VerticalSpaceDecoration
+import com.andreev.lessons_flow.ui.lesson_info.LessonInfoFragment
 import timber.log.Timber
 
-class LessonsFragment: BaseFragment<FragmentLessonsBinding>() {
+class LessonsFragment : BaseFragment<FragmentLessonsBinding>() {
     private lateinit var viewModel: LessonsViewModel
     private val adapter by lazy { LessonAdapter(arrayOf()) }
 
@@ -29,6 +31,15 @@ class LessonsFragment: BaseFragment<FragmentLessonsBinding>() {
                 adapter = this@LessonsFragment.adapter
                 addItemDecoration(VerticalSpaceDecoration(2))
             }
+            adapter.onItemClick = { id ->
+                launchFragment(
+                    fragment = LessonInfoFragment(),
+                    replace = true,
+                    addToStack = true,
+                    extras = Bundle().apply { putString(Constants.lessonId, id) }
+                )
+            }
+
             swipeLayout.setOnRefreshListener { viewModel.getLessons() }
         }
         viewModel.errorMessage.observe(viewLifecycleOwner, errorMessageObserver)
@@ -45,11 +56,15 @@ class LessonsFragment: BaseFragment<FragmentLessonsBinding>() {
         binding.swipeLayout.isRefreshing = false
         if (it.isNotEmpty()) {
             adapter.lessons = it
-            Timber.i("""GET: /lessons
-                    |${it.joinToString { lesson ->
-                "${lesson}\n"
-            }}
-                """.trimMargin())
+            Timber.i(
+                """GET: /lessons
+                    |${
+                    it.joinToString { lesson ->
+                        "${lesson}\n"
+                    }
+                }
+                """.trimMargin()
+            )
             adapter.lessons.indices.forEach { index ->
                 adapter.notifyItemChanged(index)
             }

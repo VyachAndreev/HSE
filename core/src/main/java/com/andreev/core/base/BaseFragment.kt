@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.andreev.core.R
 import com.andreev.core.di.App
 import com.andreev.core.di.ApplicationComponent
 
@@ -32,7 +33,7 @@ abstract class BaseFragment<T: ViewDataBinding>: Fragment() {
     abstract fun injectDependencies(applicationComponent: ApplicationComponent)
 
     protected fun launchFragment(
-        @IdRes containerId: Int,
+        @IdRes containerId: Int = R.id.fragment_container,
         fragment: Fragment,
         addToStack: Boolean,
         extras: Bundle? = null,

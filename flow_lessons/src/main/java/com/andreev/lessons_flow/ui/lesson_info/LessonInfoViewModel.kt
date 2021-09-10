@@ -3,9 +3,11 @@ package com.andreev.lessons_flow.ui.lesson_info
 import androidx.lifecycle.MutableLiveData
 import com.andreev.core.base.BaseViewModel
 import com.andreev.data.models.Lesson
+import com.andreev.lessons_flow.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 class LessonInfoViewModel : BaseViewModel() {
     val type = MutableLiveData<String>()
@@ -21,8 +23,16 @@ class LessonInfoViewModel : BaseViewModel() {
 
     fun getLesson(id: String) {
         scopeMain.launch {
-            lesson.value = withContext(Dispatchers.IO) {
-                api.getLesson(id)
+            try {
+                lesson.value = withContext(Dispatchers.IO) {
+                    api.getLesson(id)
+                }
+                Timber.i("""GET: /lesson
+                        |${lesson.value}
+                    """.trimMargin())
+            } catch (e: retrofit2.HttpException) {
+                Timber.e("Exception: ${e.printStackTrace()}")
+                errorMessage.value = R.string.something_went_wrong
             }
         }
     }

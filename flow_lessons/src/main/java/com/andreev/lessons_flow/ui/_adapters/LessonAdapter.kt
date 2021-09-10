@@ -10,10 +10,17 @@ import com.andreev.core.utils.DateUtils
 import com.andreev.data.models.Lesson
 import com.andreev.lessons_flow.R
 
-class LessonAdapter(var lessons: Array<Lesson>)
-    : RecyclerView.Adapter<LessonAdapter.LessonViewHolder>() {
+class LessonAdapter(var lessons: Array<Lesson>):
+    RecyclerView.Adapter<LessonAdapter.LessonViewHolder>() {
+
+    var onItemClick: ((id: String?) -> Unit)? = null
 
     inner class LessonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        init {
+            itemView.setOnClickListener {
+                onItemClick?.invoke(lessons[adapterPosition].id)
+            }
+        }
         val numberTextView: TextView = itemView.findViewById(R.id.number_tv)
         val typeTextView: TextView = itemView.findViewById(R.id.type_tv)
         val timeTextView: TextView = itemView.findViewById(R.id.time_tv)
