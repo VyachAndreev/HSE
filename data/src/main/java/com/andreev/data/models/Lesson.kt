@@ -1,5 +1,7 @@
 package com.andreev.data.models
 
+import java.util.*
+
 data class Lesson(
     val id: String?,
     val building: String?,
@@ -9,10 +11,10 @@ data class Lesson(
     val stream: String?,
     val auditorium: String?,
     val auditorium_id: Int?,
-    val date_start: String?,
-    val date_end: String?,
-    val created_at: String?,
-    val updated_at: String?,
+    val date_start: Date?,
+    val date_end: Date?,
+    val created_at: Date?,
+    val updated_at: Date?,
     val importance_level: Byte?,
     val building_id: Int?,
     val city: String?,
@@ -21,6 +23,7 @@ data class Lesson(
     val duration: Array<Int>?,
     val note: String?,
     val stream_links: Array<Property>?,
+    val lesson_number_start: Byte?,
     val hash: String?,
 ) {
     override fun equals(other: Any?): Boolean {

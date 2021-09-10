@@ -8,7 +8,7 @@ interface API {
     @Throws(retrofit2.HttpException::class)
     @GET(lessonsUrl)
     suspend fun getLessons(
-        @Query("email") email: String = "vsreev@edu.hse.ru",
+        @Query("email") email: String = "vsandreev@edu.hse.ru",
         @Query("start") startDate: String? = "2021-09-10",
         @Query("end") endDate: String? = "2021-09-10"
     ) : Array<Lesson>
