@@ -7,11 +7,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.andreev.core.base.BaseFragment
 import com.andreev.core.di.ApplicationComponent
 import com.andreev.lessons_flow.R
+import com.andreev.lessons_flow.databinding.FragmentLessonInfoBinding
 import com.andreev.lessons_flow.databinding.FragmentLessonsBinding
 import com.andreev.lessons_flow.ui.Constants
 import timber.log.Timber
 
-class LessonInfoFragment: BaseFragment<FragmentLessonsBinding>() {
+class LessonInfoFragment: BaseFragment<FragmentLessonInfoBinding>() {
     private lateinit var viewModel: LessonInfoViewModel
     private var lessonId: String?  = null
 
@@ -29,6 +30,7 @@ class LessonInfoFragment: BaseFragment<FragmentLessonsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.viewModel = viewModel
         if (arguments == null)
             Timber.i("Arguments are null")
         lessonId = arguments?.getString(Constants.lessonId, null)

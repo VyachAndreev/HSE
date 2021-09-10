@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.andreev.lessons_flow.ui.lesson_info.LessonInfoViewModel" />
+    </data>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,9 +37,11 @@
                 android:layout_marginHorizontal="10dp"
                 android:layout_toEndOf="@id/back_image"
                 android:gravity="center"
+                android:text='@{viewModel.lesson.lesson_number_start + " пара"}'
                 tools:text="123123" />
 
             <TextView
+                android:text='@{viewModel.lesson.type}'
                 android:id="@+id/type_tv"
                 style="@style/TextProximaRegular.Normal.Blue"
                 android:layout_width="wrap_content"
@@ -43,6 +51,7 @@
                 tools:text="Lecture Online" />
 
             <TextView
+                android:text='@{viewModel.lesson.discipline}'
                 android:id="@+id/discipline"
                 style="@style/TextMotserrat.Big.Black"
                 android:layout_width="wrap_content"
@@ -62,14 +71,15 @@
 
             <TextView
                 android:id="@+id/time_tv"
+                style="@style/TextProximaRegular.Normal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/clock_image"
                 android:layout_alignBottom="@id/clock_image"
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@id/clock_image"
-                style="@style/TextProximaRegular.Normal"
                 android:lines="1"
+                android:text='@{viewModel.time}'
                 tools:text="saturday, saturday, saturday, saturday, saturday, saturday " />
 
             <ImageView
@@ -83,6 +93,7 @@
 
             <TextView
                 android:id="@+id/location_tv"
+                style="@style/TextProximaRegular.Normal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/location_image"
@@ -90,7 +101,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@id/location_image"
                 android:lines="1"
-                style="@style/TextProximaRegular.Normal"
+                android:text='@{viewModel.lesson.building}'
                 tools:text="saturday, saturday, saturday, saturday, saturday, saturday " />
 
             <TextView
@@ -115,23 +126,14 @@
                 style="@style/TextMotserrat.Big.Black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/position_tv"
+                android:layout_alignBottom="@id/professor_view"
                 android:layout_alignTop="@id/professor_view"
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@id/professor_view"
                 android:gravity="center_vertical"
                 android:lines="1"
+                android:text='@{viewModel.lesson.lecturer}'
                 tools:text="Andreev" />
-
-            <TextView
-                style="@style/TextProximaRegular.Normal"
-                android:id="@+id/position_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@id/professor_name_tv"
-                android:layout_alignBottom="@id/professor_view"
-                android:lines="1"
-                tools:text="Associate professor" />
 
             <TextView
                 style="@style/TextMotserrat"
@@ -152,8 +154,8 @@
                 android:src="@drawable/ic_baseline_link_24" />
 
             <TextView
-                style="@style/TextProximaRegular.Normal"
                 android:id="@+id/link_tv"
+                style="@style/TextProximaRegular.Normal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/link_image"
@@ -161,30 +163,21 @@
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@id/link_image"
                 android:lines="1"
+                android:text="@string/link_to_discipline"
                 tools:text="saturday, saturday, saturday, saturday, saturday, saturday " />
-
-            <TextView
-                style="@style/TextProximaRegular.Small"
-                android:id="@+id/extra_link_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/link_image"
-                android:layout_marginBottom="10dp"
-                android:gravity="center"
-                app:drawableStartCompat="@drawable/ic_baseline_link_24"
-                tools:text="@string/professor" />
 
             <TextView
                 style="@style/TextMotserrat"
                 android:id="@+id/info_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/extra_link_tv"
+                android:layout_below="@id/link_tv"
                 android:layout_marginVertical="10dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/info" />
 
             <TextView
+                android:text='@{viewModel.lesson.stream}'
                 style="@style/TextProximaRegular.Small"
                 android:id="@+id/info"
                 android:layout_width="match_parent"
