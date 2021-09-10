@@ -11,7 +11,7 @@ abstract class BaseViewModel: ViewModel() {
     @Inject
     lateinit var api: API
 
-    protected val scopeIO = CoroutineScope(Dispatchers.IO)
+    protected val scopeMain = CoroutineScope(Dispatchers.Main)
 
     fun injectDependencies(applicationComponent: ApplicationComponent) {
         applicationComponent.inject(this)

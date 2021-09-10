@@ -1,12 +1,11 @@
 package com.andreev.lessons_flow.ui.lessons
 
 import androidx.lifecycle.MutableLiveData
-import retrofit2.Callback
 import com.andreev.core.base.BaseViewModel
 import com.andreev.data.models.Lesson
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Response
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class LessonsViewModel: BaseViewModel() {
@@ -15,28 +14,15 @@ class LessonsViewModel: BaseViewModel() {
 
     fun getLessons() {
         try {
-            scopeIO.launch {
-                api.getLessons().enqueue(object : Callback<Array<Lesson>> {
-                    override fun onResponse(
-                        call: Call<Array<Lesson>>,
-                        response: Response<Array<Lesson>>
-                    ) {
-                        response.body()?.let {
-                            Timber.i(
-                                """GET: /lessons
-                            |$it
-                        """.trimMargin()
-                            )
-                            lessons.postValue(it)
-                        }
-                    }
-
-                    override fun onFailure(call: Call<Array<Lesson>>, t: Throwable) {
-                        throw t
-                    }
-                })
+            scopeMain.launch {
+                lessons.value = withContext(Dispatchers.IO) {
+                    api.getLessons()
+                }
+                Timber.i("""GET: /lessons
+                    |${lessons.value}
+                """.trimMargin())
             }
-        } catch (e: Exception) {
+        } catch (e: retrofit2.HttpException) {
             Timber.e(e)
         }
     }
