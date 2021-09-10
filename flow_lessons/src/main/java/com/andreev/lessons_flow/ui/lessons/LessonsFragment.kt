@@ -11,6 +11,7 @@ import com.andreev.data.models.Lesson
 import com.andreev.lessons_flow.R
 import com.andreev.lessons_flow.databinding.FragmentLessonsBinding
 import com.andreev.lessons_flow.ui._adapters.LessonAdapter
+import com.andreev.lessons_flow.ui._adapters.VerticalSpaceDecoration
 import timber.log.Timber
 
 class LessonsFragment: BaseFragment<FragmentLessonsBinding>() {
@@ -21,11 +22,16 @@ class LessonsFragment: BaseFragment<FragmentLessonsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.lessons.observe(viewLifecycleOwner, lessonsObserver)
-        with(binding.recycler) {
-            layoutManager = LinearLayoutManager(context)
-            adapter = this@LessonsFragment.adapter
+        with(binding) {
+            swipeLayout.isRefreshing = true
+            with(recycler) {
+                layoutManager = LinearLayoutManager(context)
+                adapter = this@LessonsFragment.adapter
+                addItemDecoration(VerticalSpaceDecoration(2))
+            }
+            swipeLayout.setOnRefreshListener { viewModel.getLessons() }
         }
+        viewModel.lessons.observe(viewLifecycleOwner, lessonsObserver)
         viewModel.getLessons()
     }
 
@@ -35,6 +41,7 @@ class LessonsFragment: BaseFragment<FragmentLessonsBinding>() {
     }
 
     private val lessonsObserver = Observer<Array<Lesson>> {
+        binding.swipeLayout.isRefreshing = false
         if (it.isNotEmpty()) {
             adapter.lessons = it
             Timber.i("""GET: /lessons

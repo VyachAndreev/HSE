@@ -1,5 +1,6 @@
 package com.andreev.lessons_flow.ui._adapters
 
+import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,11 +36,26 @@ class LessonAdapter(var lessons: Array<Lesson>)
             val lesson = lessons[position]
             numberTextView.text = lesson.lesson_number_start.toString()
             typeTextView.text = lesson.type
-            timeTextView.text = "${DateUtils.formatSimpleDate(lessons[position].date_start)}-${DateUtils.formatSimpleDate(lessons[position].date_end)}"
+            timeTextView.text=
+                "${DateUtils.formatSimpleDate(lessons[position].date_start)}-${DateUtils.formatSimpleDate(lessons[position].date_end)}"
             titleTextView.text = lesson.discipline
             descriptionTextView.text = "${lesson.auditorium}, ${lesson.building}"
         }
     }
 
     override fun getItemCount(): Int = lessons.size
+}
+
+class VerticalSpaceDecoration(private val height: Int): RecyclerView.ItemDecoration() {
+    override fun getItemOffsets(
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
+    ) {
+        super.getItemOffsets(outRect, view, parent, state)
+        if (parent.getChildAdapterPosition(view) != parent.adapter?.itemCount?.minus(1)) {
+            outRect.bottom = height
+        }
+    }
 }
