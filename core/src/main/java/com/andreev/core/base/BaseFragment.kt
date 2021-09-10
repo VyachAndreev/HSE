@@ -10,6 +10,7 @@ import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.andreev.core.di.App
 import com.andreev.core.di.ApplicationComponent
 
@@ -68,5 +69,9 @@ abstract class BaseFragment<T: ViewDataBinding>: Fragment() {
     ): View? {
         inflateView(inflater)
         return binding.root
+    }
+
+    protected val errorMessageObserver = Observer<@StringRes Int> {
+        showToast(it)
     }
 }

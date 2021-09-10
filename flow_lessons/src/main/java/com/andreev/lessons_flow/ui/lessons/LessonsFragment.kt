@@ -31,6 +31,7 @@ class LessonsFragment: BaseFragment<FragmentLessonsBinding>() {
             }
             swipeLayout.setOnRefreshListener { viewModel.getLessons() }
         }
+        viewModel.errorMessage.observe(viewLifecycleOwner, errorMessageObserver)
         viewModel.lessons.observe(viewLifecycleOwner, lessonsObserver)
         viewModel.getLessons()
     }
