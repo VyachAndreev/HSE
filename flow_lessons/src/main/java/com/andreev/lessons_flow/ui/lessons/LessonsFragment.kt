@@ -57,4 +57,10 @@ class LessonsFragment: BaseFragment<FragmentLessonsBinding>() {
             showToast(R.string.nothing_found)
         }
     }
+
+    override val errorMessageObserver: Observer<Int>
+        get() {
+            binding.swipeLayout.isRefreshing = false
+            return super.errorMessageObserver
+        }
 }

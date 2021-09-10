@@ -71,7 +71,7 @@ abstract class BaseFragment<T: ViewDataBinding>: Fragment() {
         return binding.root
     }
 
-    protected val errorMessageObserver = Observer<@StringRes Int> {
+    protected open val errorMessageObserver = Observer<@StringRes Int> {
         showToast(it)
     }
 }
