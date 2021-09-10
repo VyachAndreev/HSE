@@ -1,6 +1,6 @@
 package com.andreev.core.di
 
-import androidx.lifecycle.ViewModel
+import com.andreev.core.base.BaseViewModel
 import com.andreev.core.di.modules.NetworkModule
 import dagger.Component
 import javax.inject.Singleton
@@ -10,5 +10,5 @@ import javax.inject.Singleton
 ])
 @Singleton
 interface ApplicationComponent {
-    fun inject(viewModel: ViewModel)
+    fun inject(viewModel: BaseViewModel)
 }

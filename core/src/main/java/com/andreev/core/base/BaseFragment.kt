@@ -10,6 +10,7 @@ import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import com.andreev.core.di.App
 import com.andreev.core.di.ApplicationComponent
 
 abstract class BaseFragment<T: ViewDataBinding>: Fragment() {
@@ -55,6 +56,9 @@ abstract class BaseFragment<T: ViewDataBinding>: Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        (activity?.application as? App)?.let {
+            injectDependencies(it.appComponent)
+        }
     }
 
     override fun onCreateView(

@@ -1,6 +1,6 @@
 package com.andreev.core.di.modules
 
-import com.andreev.core.api_interfaces.LessonsAPI
+import com.andreev.core.api_interfaces.API
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -18,5 +18,5 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun providesLessonsAPI() = retrofit.create(LessonsAPI::class.java)
+    fun providesLessonsAPI() = retrofit.create(API::class.java)
 }

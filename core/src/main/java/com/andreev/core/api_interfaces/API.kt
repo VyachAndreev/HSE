@@ -5,7 +5,7 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface LessonsAPI {
+interface API {
     @GET("/lessons")
     suspend fun getLessons(
         @Query("email") email: String = "vsandreev@edu.hse.ru",

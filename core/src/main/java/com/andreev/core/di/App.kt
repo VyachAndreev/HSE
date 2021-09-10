@@ -1,8 +1,7 @@
-package com.andreev.hse
+package com.andreev.core.di
 
 import android.app.Application
 import com.andreev.core.BuildConfig
-import com.andreev.core.di.ApplicationComponent
 import timber.log.Timber
 
 
@@ -14,5 +13,7 @@ class App: Application() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
+        appComponent = DaggerApplicationComponent.builder()
+            .build()
     }
 }
