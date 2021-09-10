@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--  TextMotserrat500  -->
+    <style name="TextMotserrat500">
+        <item name="fontFamily">@font/montserrat_500</item>
+    </style>
+
+    <!--  TextMotserrat600  -->
+    <style name="TextMotserrat600">
+        <item name="fontFamily">@font/montserrat_600</item>
+    </style>
+
+    <!--  TextMotserrat700  -->
+    <style name="TextMotserrat700">
+        <item name="fontFamily">@font/montserrat_700</item>
+    </style>
+    <style name="TextMotserrat700.Big" parent="TextMotserrat700">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <!--  TextProximaRegular  -->
+    <style name="TextProximaRegular">
+        <item name="fontFamily">@font/proxima_nova_regular</item>
+    </style>
+    <style name="TextProximaRegular.Normal" parent="TextProximaRegular">
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="TextProximaRegular.Normal.Blue" parent="TextProximaRegular.Normal">
+        <item name="android:color">@color/blue</item>
+    </style>
+
+    <!--  TextProximaSemibold  -->
+    <style name="TextProximaSemibold">
+        <item name="fontFamily">@font/proxima_nova_semibold</item>
+    </style>
+
+    <!--  TextProximaBold  -->
+    <style name="TextProximaBold">
+        <item name="fontFamily">@font/proxima_nova_bold</item>
+    </style>
+</resources>
