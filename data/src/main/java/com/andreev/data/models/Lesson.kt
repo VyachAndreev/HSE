@@ -84,6 +84,12 @@ data class Lesson(
         result = 31 * result + (hash?.hashCode() ?: 0)
         return result
     }
+
+    override fun toString(): String {
+        return "Lesson(id=$id, building=$building, type=$type, lecturer=$lecturer, lecturer_id=$lecturer_id, stream=$stream, auditorium=$auditorium, auditorium_id=$auditorium_id, date_start=$date_start, date_end=$date_end, created_at=$created_at, updated_at=$updated_at, importance_level=$importance_level, building_id=$building_id, city=$city, discipline=$discipline, discipline_link=$discipline_link, duration=${duration?.contentToString()}, note=$note, stream_links=${stream_links?.contentToString()}, hash=$hash)"
+    }
+
+
 }
 
 data class Property(

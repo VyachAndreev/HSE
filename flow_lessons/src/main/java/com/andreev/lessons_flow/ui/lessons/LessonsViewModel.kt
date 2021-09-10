@@ -13,17 +13,12 @@ class LessonsViewModel: BaseViewModel() {
     val lessons = MutableLiveData<Array<Lesson>>()
 
     fun getLessons() {
-        try {
             scopeMain.launch {
-                lessons.value = withContext(Dispatchers.IO) {
-                    api.getLessons()
+                try {
+                    lessons.value = withContext(Dispatchers.IO) { api.getLessons() }
+                } catch (e: retrofit2.HttpException) {
+                    Timber.e(e)
                 }
-                Timber.i("""GET: /lessons
-                    |${lessons.value}
-                """.trimMargin())
             }
-        } catch (e: retrofit2.HttpException) {
-            Timber.e(e)
-        }
     }
 }
