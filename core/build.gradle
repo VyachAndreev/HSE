@@ -40,7 +40,11 @@ dependencies {
     // LOGS
     implementation 'com.jakewharton.timber:timber:4.7.1'
     // DI
-    implementation 'com.google.dagger:dagger:2.28.3'
+    def daggerVer = "2.35.1"
+    implementation "com.google.dagger:dagger:$daggerVer"
+    implementation "com.google.dagger:dagger-android-support:$daggerVer"
+    kapt "com.google.dagger:dagger-android-processor:$daggerVer"
+    kapt "com.google.dagger:dagger-compiler:$daggerVer"
     // RETROFIT
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     // GSON
@@ -49,6 +53,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.6.0'
     implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'com.google.android.material:material:1.4.0'
+    implementation project(path: ':data')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

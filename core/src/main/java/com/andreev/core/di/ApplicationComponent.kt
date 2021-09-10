@@ -6,9 +6,9 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Component(modules = [
-    NetworkModule::class,
+    NetworkModule::class
 ])
 @Singleton
 interface ApplicationComponent {
-    fun <T: ViewModel>inject(lessonsViewModel: T)
+    fun inject(viewModel: ViewModel)
 }

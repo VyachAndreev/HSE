@@ -6,7 +6,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
 abstract class BaseViewModel: ViewModel() {
-    protected val scopeMain = CoroutineScope(Dispatchers.Main)
+    protected val scopeIO = CoroutineScope(Dispatchers.IO)
 
     abstract fun injectDependencies(applicationComponent: ApplicationComponent)
 }

@@ -1,7 +1,6 @@
 package com.andreev.core.base
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.IdRes
@@ -11,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import com.andreev.core.di.ApplicationComponent
+
 import timber.log.Timber
 
 abstract class BaseActivity<T: ViewDataBinding>: AppCompatActivity() {
