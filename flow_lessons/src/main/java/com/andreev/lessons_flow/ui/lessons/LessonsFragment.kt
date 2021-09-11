@@ -5,8 +5,10 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.RoomDatabase
 import com.andreev.core.base.BaseFragment
 import com.andreev.core.di.ApplicationComponent
+import com.andreev.data.db.DAO
 import com.andreev.data.utils.DateUtils
 import com.andreev.data.models.Lesson
 import com.andreev.data.db.LessonDatabase
@@ -22,8 +24,8 @@ import java.util.*
 class LessonsFragment : BaseFragment<FragmentLessonsBinding>() {
     private lateinit var viewModel: LessonsViewModel
     private val adapter by lazy { LessonAdapter(arrayOf()) }
-//    val db = activity?.let { LessonDatabase.getLessonDatabase(it) }
-//    val dao = db?.dao()
+    private var db: LessonDatabase? = null
+    private var dao: DAO? = null
     private val currentDate = Calendar.getInstance().time
 
     override fun getLayoutRes(): Int = R.layout.fragment_lessons
@@ -53,6 +55,8 @@ class LessonsFragment : BaseFragment<FragmentLessonsBinding>() {
             lessons.observe(viewLifecycleOwner, lessonsObserver)
             getLessons()
         }
+        db = activity?.let { LessonDatabase.getLessonDatabase(it) }
+        dao = db?.dao()
     }
 
     override fun injectDependencies(applicationComponent: ApplicationComponent) {
@@ -65,7 +69,13 @@ class LessonsFragment : BaseFragment<FragmentLessonsBinding>() {
             if (
                 DateUtils.formatSimpleDate(it.date_start) == DateUtils.formatSimpleDate(currentDate)
             ) {
-//                dao?.insertLesson(it)
+                dao?.insertLesson(it)
+                Timber.i("lessons from db:")
+                dao?.getLessons()?.forEach { lesson ->
+                    Timber.i("$lesson")
+                }
+            } else {
+                Timber.i("dao is null")
             }
         }
     }

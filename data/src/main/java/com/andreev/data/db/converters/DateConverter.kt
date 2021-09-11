@@ -1,4 +1,4 @@
-package com.andreev.data.db
+package com.andreev.data.db.converters
 
 import androidx.room.TypeConverter
 import com.andreev.data.utils.DateUtils
