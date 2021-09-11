@@ -13,6 +13,7 @@ abstract class LessonDatabase: RoomDatabase() {
     abstract fun dao(): DAO
 
     companion object {
+        private const val name = "DB"
         private var instance: LessonDatabase? = null
 
         fun getLessonDatabase(context: Context): LessonDatabase? {
@@ -21,7 +22,7 @@ abstract class LessonDatabase: RoomDatabase() {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         LessonDatabase::class.java,
-                        "DB"
+                        name,
                     ).build()
                 }
             }

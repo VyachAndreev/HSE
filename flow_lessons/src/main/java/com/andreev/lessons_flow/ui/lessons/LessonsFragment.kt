@@ -22,8 +22,8 @@ import java.util.*
 class LessonsFragment : BaseFragment<FragmentLessonsBinding>() {
     private lateinit var viewModel: LessonsViewModel
     private val adapter by lazy { LessonAdapter(arrayOf()) }
-    val db = activity?.let { LessonDatabase.getLessonDatabase(it) }
-    val dao = db?.dao()
+//    val db = activity?.let { LessonDatabase.getLessonDatabase(it) }
+//    val dao = db?.dao()
     private val currentDate = Calendar.getInstance().time
 
     override fun getLayoutRes(): Int = R.layout.fragment_lessons
@@ -65,7 +65,7 @@ class LessonsFragment : BaseFragment<FragmentLessonsBinding>() {
             if (
                 DateUtils.formatSimpleDate(it.date_start) == DateUtils.formatSimpleDate(currentDate)
             ) {
-                dao?.insertLesson(it)
+//                dao?.insertLesson(it)
             }
         }
     }

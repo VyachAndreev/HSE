@@ -29,10 +29,12 @@ class LessonInfoFragment: BaseFragment<FragmentLessonInfoBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.viewModel = viewModel
         with(binding) {
             swipeLayout.isRefreshing = true
-            viewModel = this@LessonInfoFragment.viewModel
-            swipeLayout.setOnRefreshListener { lessonId?.let { viewModel.getLesson(it) } }
+            swipeLayout.setOnRefreshListener { lessonId?.let {
+                this@LessonInfoFragment.viewModel.getLesson(it)
+            } }
             backImage.setOnClickListener { onBackPressed() }
         }
         lessonId = arguments?.getString(Constants.lessonId, null)
@@ -52,7 +54,7 @@ class LessonInfoFragment: BaseFragment<FragmentLessonInfoBinding>() {
                 parentRelative.visibility = visible
             }
             swipeLayout.isRefreshing = false
-            if (viewModel.lesson.value?.lecturer == null) {
+            if (this@LessonInfoFragment.viewModel.lesson.value?.lecturer == null) {
                 professorNameTv.visibility = gone
                 professorTv.visibility = gone
                 professorView.visibility = gone
