@@ -14,7 +14,7 @@ import java.util.*
 
 class DayAdapter(var lessons: Map<Date, List<Lesson>> = mapOf())
     : RecyclerView.Adapter<DayAdapter.DayViewHolder>() {
-    var onItemClick: ((id: String?) -> Unit)? = null
+    var onLessonClick: ((id: String?) -> Unit)? = null
 
     private val keys = lessons.keys.sorted().toList()
 
@@ -48,7 +48,8 @@ class DayAdapter(var lessons: Map<Date, List<Lesson>> = mapOf())
                     addItemDecoration(VerticalSpaceDecoration(2))
                 }
                 recyclerAdapter.onItemClick = {
-                    onItemClick?.invoke(it)
+                    Timber.i(it)
+                    onLessonClick?.invoke(it)
                 }
             }
         }

@@ -26,6 +26,7 @@ class LessonAdapter(var lessons: Array<Lesson>):
         init {
             itemView.setOnClickListener {
                 onItemClick?.invoke(lessons[adapterPosition].id)
+                Timber.i(lessons[adapterPosition].id)
             }
         }
         val numberTextView: TextView = itemView.findViewById(R.id.number_tv)

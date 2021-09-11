@@ -42,17 +42,8 @@ class LessonsFragment : BaseFragment<FragmentLessonsBinding>() {
                 layoutManager = LinearLayoutManager(context)
                 adapter = _adapter
             }
-            _adapter.onItemClick = { id ->
-                if (context?.let { isOnline(it) } == true) {
-                    launchFragment(
-                        fragment = LessonInfoFragment(),
-                        replace = true,
-                        addToStack = true,
-                        extras = Bundle().apply { putString(Constants.lessonId, id) }
-                    )
-                } else {
-                    showToast(R.string.no_connection)
-                }
+            _adapter.onLessonClick = { id ->
+               onLessonClicked(id)
             }
             swipeLayout.setOnRefreshListener {
                 DateUtils.formatSimpleDateDay(currentDate)?.let {
@@ -85,6 +76,20 @@ class LessonsFragment : BaseFragment<FragmentLessonsBinding>() {
     override fun injectDependencies(applicationComponent: ApplicationComponent) {
         viewModel = ViewModelProvider(this).get(LessonsViewModel::class.java)
         viewModel.injectDependencies(applicationComponent)
+    }
+
+    private fun onLessonClicked(id: String?) {
+        Timber.i(id)
+        if (context?.let { isOnline(it) } == true) {
+            launchFragment(
+                fragment = LessonInfoFragment(),
+                replace = true,
+                addToStack = true,
+                extras = Bundle().apply { putString(Constants.lessonId, id) }
+            )
+        } else {
+            showToast(R.string.no_connection)
+        }
     }
 
     private fun saveLessonsToDataBase(lessons: Array<Lesson>) {
@@ -130,6 +135,9 @@ class LessonsFragment : BaseFragment<FragmentLessonsBinding>() {
             val mLessons = lessons.toList().groupBy { DateUtils.getStartOfTheDay(it.date_start) }
             _adapter = DayAdapter(mLessons)
             binding.recycler.adapter = _adapter
+            _adapter.onLessonClick = {
+                onLessonClicked(it)
+            }
         } else {
             showToast(R.string.nothing_found)
         }
