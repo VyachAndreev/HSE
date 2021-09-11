@@ -12,8 +12,14 @@ class IntArrayConverter {
 
     @TypeConverter
     fun fromArray(array: Array<Int>?): String? {
-        return array?.joinToString {
-            "$it,"
+        var string = ""
+        array?.forEachIndexed { index, i ->
+            string += if (index != array.size - 1) {
+                "$i,"
+            } else {
+                "$i"
+            }
         }
+        return string
     }
 }

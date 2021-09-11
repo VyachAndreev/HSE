@@ -11,4 +11,5 @@
     <string name="location_image">locate image</string>
     <string name="link_image">link image</string>
     <string name="link_to_discipline">Ссылка на курс</string>
+    <string name="no_connection">Соединение с интернетом отсутствует</string>
 </resources>

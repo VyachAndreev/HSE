@@ -1,5 +1,9 @@
 package com.andreev.lessons_flow.ui.lessons
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -18,6 +22,9 @@ import com.andreev.lessons_flow.ui.Constants
 import com.andreev.lessons_flow.ui._adapters.LessonAdapter
 import com.andreev.lessons_flow.ui._adapters.VerticalSpaceDecoration
 import com.andreev.lessons_flow.ui.lesson_info.LessonInfoFragment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
 
@@ -40,23 +47,42 @@ class LessonsFragment : BaseFragment<FragmentLessonsBinding>() {
                 addItemDecoration(VerticalSpaceDecoration(2))
             }
             adapter.onItemClick = { id ->
-                launchFragment(
-                    fragment = LessonInfoFragment(),
-                    replace = true,
-                    addToStack = true,
-                    extras = Bundle().apply { putString(Constants.lessonId, id) }
-                )
+                if (context?.let { isOnline(it) } == true) {
+                    launchFragment(
+                        fragment = LessonInfoFragment(),
+                        replace = true,
+                        addToStack = true,
+                        extras = Bundle().apply { putString(Constants.lessonId, id) }
+                    )
+                } else {
+                    showToast(R.string.no_connection)
+                }
             }
-
-            swipeLayout.setOnRefreshListener { viewModel.getLessons() }
-        }
-        with(viewModel) {
-            errorMessage.observe(viewLifecycleOwner, errorMessageObserver)
-            lessons.observe(viewLifecycleOwner, lessonsObserver)
-            getLessons()
+            swipeLayout.setOnRefreshListener {
+                DateUtils.formatSimpleDateDay(currentDate)?.let {
+                    if (context?.let { it1 -> isOnline(it1) } == true) {
+                        viewModel.getLessons(it)
+                    } else {
+                        getLessonsFromDataBase()
+                    }
+                }
+            }
         }
         db = activity?.let { LessonDatabase.getLessonDatabase(it) }
         dao = db?.dao()
+        Timber.i("activity: $activity. db: $db, dao: $dao")
+        with(viewModel) {
+            errorMessage.observe(viewLifecycleOwner, errorMessageObserver)
+            lessons.observe(viewLifecycleOwner, lessonsObserver)
+            DateUtils.formatSimpleDateDay(currentDate)?.let {
+                Timber.i("date: $it")
+                if (context?.let { it1 -> isOnline(it1) } == true) {
+                    viewModel.getLessons(it)
+                } else {
+                    getLessonsFromDataBase()
+                }
+            }
+        }
     }
 
     override fun injectDependencies(applicationComponent: ApplicationComponent) {
@@ -65,20 +91,43 @@ class LessonsFragment : BaseFragment<FragmentLessonsBinding>() {
     }
 
     private fun saveLessonsToDataBase(lessons: Array<Lesson>) {
-        lessons.forEach {
-            if (
-                DateUtils.formatSimpleDate(it.date_start) == DateUtils.formatSimpleDate(currentDate)
-            ) {
-                dao?.insertLesson(it)
-                Timber.i("lessons from db:")
-                dao?.getLessons()?.forEach { lesson ->
-                    Timber.i("$lesson")
+        CoroutineScope(Dispatchers.Default).launch {
+            lessons.forEach {
+                if (DateUtils.formatSimpleDateDay(it.date_start) ==
+                    DateUtils.formatSimpleDateDay(currentDate) ||
+                    it.date_start!! < currentDate
+                ) {
+                    dao?.insertLesson(it)
+                    Timber.i("lessons from db:")
+                    dao?.getLessons()?.forEach { lesson ->
+                        Timber.i("$lesson")
+                    }
                 }
-            } else {
-                Timber.i("dao is null")
             }
         }
     }
+
+    private fun isOnline(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        } else {
+            null
+        }
+        if (capabilities != null) {
+            return true
+        }
+        return false
+    }
+
+    private fun getLessonsFromDataBase() {
+        showToast(R.string.no_connection)
+        CoroutineScope(Dispatchers.Default).launch {
+            viewModel.lessons.postValue(dao?.getLessons())
+        }
+    }
+
 
     private val lessonsObserver = Observer<Array<Lesson>> {
         saveLessonsToDataBase(it)
