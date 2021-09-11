@@ -63,7 +63,8 @@ class LessonsFragment : BaseFragment<FragmentLessonsBinding>() {
                     if (context?.let { it1 -> isOnline(it1) } == true) {
                         viewModel.getLessons(it)
                     } else {
-                        getLessonsFromDataBase()
+                        showToast(R.string.no_connection)
+                        swipeLayout.isRefreshing = false
                     }
                 }
             }
@@ -120,6 +121,7 @@ class LessonsFragment : BaseFragment<FragmentLessonsBinding>() {
     private fun getLessonsFromDataBase() {
         showToast(R.string.no_connection)
         CoroutineScope(Dispatchers.Default).launch {
+            dao?.deleteUnusedLessons(DateUtils.getStartOfTheDay(Calendar.getInstance().time))
             viewModel.lessons.postValue(dao?.getLessons())
         }
     }

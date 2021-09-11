@@ -21,8 +21,12 @@ interface DAO {
     @Query(selectAllCall)
     fun getLessons(): Array<Lesson>
 
+    @Query(deleteUnused)
+    fun deleteUnusedLessons(date_start: Date)
+
     private companion object {
         const val whereDateCall = "SELECT * FROM Lesson WHERE date_start == :date_start"
         const val selectAllCall = "SELECT * FROM Lesson"
+        const val deleteUnused = "DELETE FROM Lesson WHERE date_start < :date_start"
     }
 }
