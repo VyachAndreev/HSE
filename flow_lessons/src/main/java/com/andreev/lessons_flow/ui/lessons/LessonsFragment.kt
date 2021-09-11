@@ -98,10 +98,6 @@ class LessonsFragment : BaseFragment<FragmentLessonsBinding>() {
                     it.date_start!! < currentDate
                 ) {
                     dao?.insertLesson(it)
-                    Timber.i("lessons from db:")
-                    dao?.getLessons()?.forEach { lesson ->
-                        Timber.i("$lesson")
-                    }
                 }
             }
         }

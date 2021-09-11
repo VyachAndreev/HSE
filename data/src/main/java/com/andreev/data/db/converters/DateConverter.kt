@@ -12,6 +12,6 @@ class DateConverter {
 
     @TypeConverter
     fun fromDate(date: Date?): String? {
-        return DateUtils.formatSimpleDateDay(date)
+        return DateUtils.formatSimpleDateDayTime(date)
     }
 }
