@@ -9,11 +9,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.andreev.data.utils.DateUtils
 import com.andreev.data.models.Lesson
 import com.andreev.lessons_flow.R
+import timber.log.Timber
 
 class LessonAdapter(var lessons: Array<Lesson>):
     RecyclerView.Adapter<LessonAdapter.LessonViewHolder>() {
 
     var onItemClick: ((id: String?) -> Unit)? = null
+
+    init {
+        lessons.forEach {
+            Timber.i(it.toString())
+        }
+    }
 
     inner class LessonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         init {

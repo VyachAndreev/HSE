@@ -15,7 +15,7 @@ data class Lesson(
     val stream: String?,
     val auditorium: String?,
     val auditorium_id: Int?,
-    val date_start: Date?,
+    val date_start: Date,
     val date_end: Date?,
     val created_at: Date?,
     val updated_at: Date?,

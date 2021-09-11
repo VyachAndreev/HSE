@@ -2,14 +2,12 @@ package com.andreev.lessons_flow.ui.lessons
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.RoomDatabase
 import com.andreev.core.base.BaseFragment
 import com.andreev.core.di.ApplicationComponent
 import com.andreev.data.db.DAO
@@ -19,8 +17,7 @@ import com.andreev.data.db.LessonDatabase
 import com.andreev.lessons_flow.R
 import com.andreev.lessons_flow.databinding.FragmentLessonsBinding
 import com.andreev.lessons_flow.ui.Constants
-import com.andreev.lessons_flow.ui._adapters.LessonAdapter
-import com.andreev.lessons_flow.ui._adapters.VerticalSpaceDecoration
+import com.andreev.lessons_flow.ui._adapters.DayAdapter
 import com.andreev.lessons_flow.ui.lesson_info.LessonInfoFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,7 +27,7 @@ import java.util.*
 
 class LessonsFragment : BaseFragment<FragmentLessonsBinding>() {
     private lateinit var viewModel: LessonsViewModel
-    private val adapter by lazy { LessonAdapter(arrayOf()) }
+    private var _adapter = DayAdapter()
     private var db: LessonDatabase? = null
     private var dao: DAO? = null
     private val currentDate = Calendar.getInstance().time
@@ -43,10 +40,9 @@ class LessonsFragment : BaseFragment<FragmentLessonsBinding>() {
             swipeLayout.isRefreshing = true
             with(recycler) {
                 layoutManager = LinearLayoutManager(context)
-                adapter = this@LessonsFragment.adapter
-                addItemDecoration(VerticalSpaceDecoration(2))
+                adapter = _adapter
             }
-            adapter.onItemClick = { id ->
+            _adapter.onItemClick = { id ->
                 if (context?.let { isOnline(it) } == true) {
                     launchFragment(
                         fragment = LessonInfoFragment(),
@@ -96,7 +92,7 @@ class LessonsFragment : BaseFragment<FragmentLessonsBinding>() {
             lessons.forEach {
                 if (DateUtils.formatSimpleDateDay(it.date_start) ==
                     DateUtils.formatSimpleDateDay(currentDate) ||
-                    it.date_start!! < currentDate
+                    it.date_start < currentDate
                 ) {
                     dao?.insertLesson(it)
                 }
@@ -127,23 +123,13 @@ class LessonsFragment : BaseFragment<FragmentLessonsBinding>() {
     }
 
 
-    private val lessonsObserver = Observer<Array<Lesson>> {
-        saveLessonsToDataBase(it)
+    private val lessonsObserver = Observer<Array<Lesson>> { lessons ->
+        saveLessonsToDataBase(lessons)
         binding.swipeLayout.isRefreshing = false
-        if (it.isNotEmpty()) {
-            adapter.lessons = it
-            Timber.i(
-                """GET: /lessons
-                    |${
-                    it.joinToString { lesson ->
-                        "${lesson}\n"
-                    }
-                }
-                """.trimMargin()
-            )
-            adapter.lessons.indices.forEach { index ->
-                adapter.notifyItemChanged(index)
-            }
+        if (lessons.isNotEmpty()) {
+            val mLessons = lessons.toList().groupBy { DateUtils.getStartOfTheDay(it.date_start) }
+            _adapter = DayAdapter(mLessons)
+            binding.recycler.adapter = _adapter
         } else {
             showToast(R.string.nothing_found)
         }

@@ -12,7 +12,7 @@ import com.andreev.data.models.Lesson
 
 @Database(entities = [Lesson::class], version = 1)
 @TypeConverters(DateConverter::class, IntArrayConverter::class, PropertyConverter::class)
-abstract class LessonDatabase: RoomDatabase() {
+abstract class LessonDatabase : RoomDatabase() {
     abstract fun dao(): DAO
 
     companion object {
@@ -26,7 +26,9 @@ abstract class LessonDatabase: RoomDatabase() {
                         context.applicationContext,
                         LessonDatabase::class.java,
                         name,
-                    ).build()
+                    )
+                        .fallbackToDestructiveMigration()
+                        .build()
                 }
             }
             return instance
