@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.andreev.core.base.BaseFragment
 import com.andreev.core.di.ApplicationComponent
+import com.andreev.data.utils.DateUtils
 import com.andreev.data.models.Lesson
+import com.andreev.data.db.LessonDatabase
 import com.andreev.lessons_flow.R
 import com.andreev.lessons_flow.databinding.FragmentLessonsBinding
 import com.andreev.lessons_flow.ui.Constants
@@ -15,10 +17,14 @@ import com.andreev.lessons_flow.ui._adapters.LessonAdapter
 import com.andreev.lessons_flow.ui._adapters.VerticalSpaceDecoration
 import com.andreev.lessons_flow.ui.lesson_info.LessonInfoFragment
 import timber.log.Timber
+import java.util.*
 
 class LessonsFragment : BaseFragment<FragmentLessonsBinding>() {
     private lateinit var viewModel: LessonsViewModel
     private val adapter by lazy { LessonAdapter(arrayOf()) }
+    val db = activity?.let { LessonDatabase.getLessonDatabase(it) }
+    val dao = db?.dao()
+    private val currentDate = Calendar.getInstance().time
 
     override fun getLayoutRes(): Int = R.layout.fragment_lessons
 
@@ -54,7 +60,18 @@ class LessonsFragment : BaseFragment<FragmentLessonsBinding>() {
         viewModel.injectDependencies(applicationComponent)
     }
 
+    private fun saveLessonsToDataBase(lessons: Array<Lesson>) {
+        lessons.forEach {
+            if (
+                DateUtils.formatSimpleDate(it.date_start) == DateUtils.formatSimpleDate(currentDate)
+            ) {
+                dao?.insertLesson(it)
+            }
+        }
+    }
+
     private val lessonsObserver = Observer<Array<Lesson>> {
+        saveLessonsToDataBase(it)
         binding.swipeLayout.isRefreshing = false
         if (it.isNotEmpty()) {
             adapter.lessons = it

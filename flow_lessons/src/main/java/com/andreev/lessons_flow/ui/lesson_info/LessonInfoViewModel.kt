@@ -2,7 +2,7 @@ package com.andreev.lessons_flow.ui.lesson_info
 
 import androidx.lifecycle.MutableLiveData
 import com.andreev.core.base.BaseViewModel
-import com.andreev.core.utils.DateUtils
+import com.andreev.data.utils.DateUtils
 import com.andreev.data.models.Lesson
 import com.andreev.lessons_flow.R
 import kotlinx.coroutines.Dispatchers

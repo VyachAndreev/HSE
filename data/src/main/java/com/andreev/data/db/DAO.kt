@@ -1,6 +1,7 @@
-package com.andreev.data.models
+package com.andreev.data.db
 
 import androidx.room.*
+import com.andreev.data.models.Lesson
 import java.util.*
 
 @Dao
