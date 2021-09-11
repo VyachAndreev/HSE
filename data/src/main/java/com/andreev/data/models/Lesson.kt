@@ -1,8 +1,12 @@
 package com.andreev.data.models
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.util.*
 
+@Entity
 data class Lesson(
+    @PrimaryKey(autoGenerate = true)
     val id: String?,
     val building: String?,
     val type: String?,
