@@ -25,6 +25,11 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
 
+import androidx.core.content.ContextCompat.getSystemService
+
+
+
+
 class LessonsFragment : BaseFragment<FragmentLessonsBinding>() {
     private lateinit var viewModel: LessonsViewModel
     private var _adapter = DayAdapter()
@@ -108,15 +113,8 @@ class LessonsFragment : BaseFragment<FragmentLessonsBinding>() {
     private fun isOnline(context: Context): Boolean {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val capabilities = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-        } else {
-            null
-        }
-        if (capabilities != null) {
-            return true
-        }
-        return false
+        val activeNetworkInfo = connectivityManager.activeNetworkInfo
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected
     }
 
     private fun getLessonsFromDataBase() {
